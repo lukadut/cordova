@@ -1,13 +1,16 @@
 var app = {
 	initialize:function(){
-		document.addEventListener("deviceready", function(){onDeviceReady();console.log("deviceready");}, false);
-		document.addEventListener("load", function(){onDeviceReady();console.log("load");}, false);
-	}
-}
-function a(){
-        
-            var log = document.getElementById("log");
-            log.innerText="zmiana orientacji, aktualnie " + window.orientation +"\r\n"
+		this.changeScreenSize();
+		document.addEventListener("deviceready", function(){app.onDeviceReady();console.log("deviceready");}, false);
+		document.addEventListener("load", function(){app.onDeviceReady();console.log("load");}, false);
+		$(document).ready(function(){console.log("jquery ready");app.onDeviceReady();})
+
+		$(window).bind('resize', this.changeScreenSize);
+
+	},
+	changeScreenSize:function(){
+		var log = document.getElementById("log");
+		log.innerText="zmiana orientacji, aktualnie " + window.orientation +"\r\n"
             + "width: " + window.innerWidth + "\r\nheight: " + window.innerHeight;
         var cols = $(".column");
         var rows = $(".row");
@@ -24,22 +27,21 @@ function a(){
                   });
         
         $("#gameArea").css('height',min).css('width',min);
-};
-	
-function onDeviceReady() {
-    console.log("onDeviceReady start");
+	},
+	onDeviceReady:function() {
+		console.log("onDeviceReady start");
 
-    console.log("onDeviceReady koniec");
-    
-    a();
-    
-    document.addEventListener("orientationchange",a);
-    document.addEventListener("onresize",a);
-    document.addEventListener("resize",a)
+		console.log("onDeviceReady koniec");
+		
+		this.changeScreenSize();
+		
+		document.addEventListener("orientationchange",this.changeScreenSize);
+		document.addEventListener("onresize",this.changeScreenSize);
+		document.addEventListener("resize",this.changeScreenSize);
+	}
 }
-$(document).ready(function(){console.log("jquery ready");onDeviceReady();})
+	
 
-$(window).bind('resize', a);
 
 function Timer(options) {
   var timer,
@@ -152,7 +154,7 @@ var Game={
 			}
 		}	
 
-		a();
+		app.changeScreenSize();
 		//this.timer.start();
 	},
 	addActionsOnFields:function(scope){
