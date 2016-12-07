@@ -9,13 +9,14 @@ var app = {
 
 	},
 	changeScreenSize:function(){
-		var log = document.getElementById("log");
+		/* var log = document.getElementById("log");
 		log.innerText="zmiana orientacji, aktualnie " + window.orientation +"\r\n"
-            + "width: " + window.innerWidth + "\r\nheight: " + window.innerHeight;
+            + "width: " + window.innerWidth + "\r\nheight: " + window.innerHeight;*/
         var cols = $(".column");
         var rows = $(".row");
         var len = rows.length;
         var min = Math.min(window.innerWidth,window.innerHeight)*0.9;
+		var margin = (window.innerWidth - min)/2;
         cols.each((i,e)=>{$(e).css('width',min/9);});
         rows.each(function(index,element){
                   //console.log(index + " " + element);
@@ -26,7 +27,7 @@ var app = {
                   
                   });
         
-        $("#gameArea").css('height',min).css('width',min);
+        $("#gameArea").css('height',min).css('width',min).css('top',Math.min(window.innerWidth,window.innerHeight)*0.05).css('left',margin);
 	},
 	onDeviceReady:function() {
 		console.log("onDeviceReady start");
@@ -67,6 +68,10 @@ function Timer(options) {
 	updateStatus(seconds);
 	return seconds;
   };
+  this.restart = function () {
+	  this.stop();
+	  this.start();
+  }
 }
 
 function toMMSS(seconds){
@@ -93,6 +98,8 @@ var Game={
 	historyCounter:0,
 	history:{},
 	init:function(){
+		app.initialize();
+		this.timer.stop();
 		this.selectedField=undefined;
 		this.previousSelectedField=undefined;
 		this.fields={};
@@ -123,7 +130,10 @@ var Game={
 			this.fields[i][j]["type"]=undefined;
 		},
 	generateDOM:function(){
+		$("#timer").text(toMMSS(0));
+		$("#moves").text("0");
 		this.generateFields();
+		$("#gameArea").empty();
 		for(var i=0;i<9;i++){
 			var column= $("<div/>",{
 				class: 'column'
@@ -291,6 +301,8 @@ var Game={
 			move["to"]["marble"]=false;
 			move["from"]["marble"]=true;
 			this.historyCounter--;
+			this.movesCounter++;
+			this.updateMovesCounter();
 		}
 	},
 	

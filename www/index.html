@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width; user-scalable=no" />
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="bootstrap.css">
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="js.js"></script>
+	<link rel="stylesheet" href="css/font-awesome.min.css">
     <style type="text/css">
 
       /* Sticky footer styles
@@ -45,7 +47,7 @@
       }
 
       .gameArea{
-        
+        position:absolute;
         display:block;
         margin:auto;
         border-radius:50%;
@@ -113,16 +115,27 @@
 	.cango >.hole{
 		background:green;
 	}
+	
+	#undo {
+		position:fixed;
+		bottom: 5%;
+		left: 5%;
+	}
+	#newgame {
+		position:fixed;
+		bottom: 5%;
+		right: 5%;
+	}
 
     </style>
 </head>
 <body>
 <div id="wrap">
-    <div id="header"><p>header</p>
 	<div id="timer">00:00</div>
-	<div id="moves">0</div>
-	<button>undo</button>
-    <p id="log"></p></div>
+	<div><span>Moves: </span><span id="moves">0</span></div>
+	<button id="undo" onclick="Game.undoMove()"><i class="fa fa-undo fa-5x"></i></button>
+	<button id="newgame" onclick="Game.init()"><i class="fa fa-play fa-5x"></i></button>
+    
     <div class="gameArea" style="background" id="gameArea">
         
         
@@ -130,11 +143,5 @@
 
     </div>
 </div>
-    <!--<div id="footer"><p>footer</p></div>-->
-    <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript" src="js.js"></script>
-	<script type="text/javascript" >
-		app.initialize();
-	</script>
 </body>
 </html>
