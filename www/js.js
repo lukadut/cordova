@@ -1,4 +1,46 @@
+var app = {
+	initialize:function(){
+		this.changeScreenSize();
+		document.addEventListener("deviceready", function(){app.onDeviceReady();console.log("deviceready");}, false);
+		document.addEventListener("load", function(){app.onDeviceReady();console.log("load");}, false);
+		$(document).ready(function(){console.log("jquery ready");app.onDeviceReady();})
 
+		$(window).bind('resize', this.changeScreenSize);
+
+	},
+	changeScreenSize:function(){
+		var log = document.getElementById("log");
+		log.innerText="zmiana orientacji, aktualnie " + window.orientation +"\r\n"
+            + "width: " + window.innerWidth + "\r\nheight: " + window.innerHeight;
+        var cols = $(".column");
+        var rows = $(".row");
+        var len = rows.length;
+        var min = Math.min(window.innerWidth,window.innerHeight)*0.9;
+        cols.each((i,e)=>{$(e).css('width',min/9);});
+        rows.each(function(index,element){
+                  //console.log(index + " " + element);
+                  if(!$(element).hasClass("empty")){
+                    //$(element).css('background-color','#'+(Math.round(0xFFF/len) * index).toString(16));
+                  }
+                  $(element).css('height',min/9);
+                  
+                  });
+        
+        $("#gameArea").css('height',min).css('width',min);
+	},
+	onDeviceReady:function() {
+		console.log("onDeviceReady start");
+
+		console.log("onDeviceReady koniec");
+		
+		this.changeScreenSize();
+		
+		document.addEventListener("orientationchange",this.changeScreenSize);
+		document.addEventListener("onresize",this.changeScreenSize);
+		document.addEventListener("resize",this.changeScreenSize);
+	}
+}
+	
 
 
 function Timer(options) {
@@ -50,43 +92,7 @@ var Game={
 	movesCounter:0,
 	historyCounter:0,
 	history:{},
-	DOM: {
-		initialize:function(){
-			this.changeScreenSize();
-			document.addEventListener("deviceready", this.onDeviceReady, false);
-			document.addEventListener("load", this.onDeviceReady, false);
-			$(document).ready(this.onDeviceReady);
-			$(window).bind('resize', this.changeScreenSize);
-
-		},
-		changeScreenSize:function(){
-			var log = document.getElementById("log");
-			log.innerText="zmiana orientacji, aktualnie " + window.orientation +"\r\n"
-				+ "width: " + window.innerWidth + "\r\nheight: " + window.innerHeight;
-			var cols = $(".column");
-			var rows = $(".row");
-			var len = rows.length;
-			var min = Math.min(window.innerWidth,window.innerHeight)*0.9;
-			cols.each((i,e)=>{$(e).css('width',min/9);});
-			rows.each(function(index,element){
-					  //console.log(index + " " + element);
-					  if(!$(element).hasClass("empty")){
-						//$(element).css('background-color','#'+(Math.round(0xFFF/len) * index).toString(16));
-					  }
-					  $(element).css('height',min/9);
-					  
-					  });
-			
-			$("#gameArea").css('height',min).css('width',min);
-		},
-		onDeviceReady:function() {
-			document.addEventListener("orientationchange",this.changeScreenSize);
-			document.addEventListener("onresize",this.changeScreenSize);
-			document.addEventListener("resize",this.changeScreenSize);
-		}
-	},
 	init:function(){
-		this.DOM.initialize();
 		this.selectedField=undefined;
 		this.previousSelectedField=undefined;
 		this.fields={};
@@ -148,7 +154,7 @@ var Game={
 			}
 		}	
 
-		this.DOM.changeScreenSize();
+		app.changeScreenSize();
 		//this.timer.start();
 	},
 	addActionsOnFields:function(scope){
@@ -319,4 +325,4 @@ var Game={
 	
 }
 
-//$(document).ready(function(){Game.init();})
+$(document).ready(function(){Game.init();})
