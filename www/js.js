@@ -1,3 +1,9 @@
+var app = {
+	initialize:function(){
+		document.addEventListener("deviceready", function(){onDeviceReady();console.log("deviceready");}, false);
+		document.addEventListener("load", function(){onDeviceReady();console.log("load");}, false);
+	}
+}
 function a(){
         
             var log = document.getElementById("log");
@@ -20,8 +26,6 @@ function a(){
         $("#gameArea").css('height',min).css('width',min);
 };
 	
-document.addEventListener("deviceready", function(){onDeviceReady();console.log("deviceready");}, false);
-document.addEventListener("load", function(){onDeviceReady();console.log("load");}, false);
 function onDeviceReady() {
     console.log("onDeviceReady start");
 
