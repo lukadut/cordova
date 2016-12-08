@@ -16,7 +16,8 @@ var app = {
         var rows = $(".row");
         var len = rows.length;
         var min = Math.min(window.innerWidth,window.innerHeight)*0.9;
-		var margin = (window.innerWidth - min)/2;
+		var marginleft = (window.innerWidth - min)/2;
+		var margintop = (window.innerHeight - min)/2;
         cols.each((i,e)=>{$(e).css('width',min/9);});
         rows.each(function(index,element){
                   //console.log(index + " " + element);
@@ -27,7 +28,7 @@ var app = {
                   
                   });
         
-        $("#gameArea").css('height',min).css('width',min).css('top',Math.min(window.innerWidth,window.innerHeight)*0.05).css('left',margin);
+        $("#gameArea").css('height',min).css('width',min).css('top',Math.min(window.innerWidth,window.innerHeight)*0.05).css('left',marginleft).css('top',margintop);
 	},
 	onDeviceReady:function() {
 		console.log("onDeviceReady start");
@@ -131,7 +132,7 @@ var Game={
 		},
 	generateDOM:function(){
 		$("#timer").text(toMMSS(0));
-		$("#moves").text("0");
+		$("#movesCounter").text("0");
 		this.generateFields();
 		$("#gameArea").empty();
 		for(var i=0;i<9;i++){
@@ -332,7 +333,7 @@ var Game={
 	},
 	
 	updateMovesCounter:function(){
-		$("#moves").text(this.movesCounter);
+		$("#movesCounter").text(this.movesCounter);
 	},
 	
 }

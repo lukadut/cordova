@@ -15,6 +15,7 @@
       html,
       body {
         height: 100%;
+		margin: 0px;
         /* The html and body elements cannot have any padding or margin. */
       }
 
@@ -116,25 +117,32 @@
 		background:green;
 	}
 	
-	#undo {
-		position:fixed;
-		bottom: 5%;
+	.corner{
+	position:fixed;
+	}
+	
+	.bottom{
+		bottom:5%;
+	}
+	.top{
+		top:5%;
+	}	
+	.left {
 		left: 5%;
 	}
-	#newgame {
-		position:fixed;
-		bottom: 5%;
+	.right {
 		right: 5%;
 	}
+
 
     </style>
 </head>
 <body>
 <div id="wrap">
-	<div id="timer">00:00</div>
-	<div><span>Moves: </span><span id="moves">0</span></div>
-	<button id="undo" onclick="Game.undoMove()"><i class="fa fa-undo fa-5x"></i></button>
-	<button id="newgame" onclick="Game.init()"><i class="fa fa-play fa-5x"></i></button>
+	<div class="corner right top fa-2x" id="timer">00:00</div>
+	<div class="corner left top fa-2x" id="moves"><span>Moves: </span><span id="movesCounter">0</span></div>
+	<div class="corner left bottom button" id="undo" onclick="Game.undoMove()"><i class="fa fa-undo fa-5x"></i></div>
+	<div class="corner right bottom button" id="newgame" onclick="Game.init()"><i class="fa fa-play fa-5x"></i></div>
     
     <div class="gameArea" style="background" id="gameArea">
         
