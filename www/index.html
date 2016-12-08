@@ -8,130 +8,148 @@
     <script type="text/javascript" src="js.js"></script>
 	<link rel="stylesheet" href="css/font-awesome.min.css">
     <style type="text/css">
-
-      /* Sticky footer styles
-      -------------------------------------------------- */
-
-      html,
-      body {
-        height: 100%;
+	html{
+		margin-top:20px !important;
+	}
+	html, body {
+		height: 100%;
 		margin: 0px;
-        /* The html and body elements cannot have any padding or margin. */
-      }
-
-      /* Wrapper for page content to push down footer */
-      #wrap {
-        min-height: 100%;
-        height: auto !important;
-        height: 100%;
-        /* Negative indent footer by it's height */
-        margin: 0 auto -60px;
-      }
-
-      /* Set the fixed height of the footer here */
-      #push,
-      #footer {
-        height: 60px;
-      }
-      #footer {
-        background-color: #f5f5f5;
-      }
-
-      /* Lastly, apply responsive CSS fixes as necessary */
-      @media (max-width: 767px) {
-        #footer {
-          margin-left: -20px;
-          margin-right: -20px;
-          padding-left: 20px;
-          padding-right: 20px;
-        }
-      }
-
-      .gameArea{
-        position:absolute;
-        display:block;
-        margin:auto;
-        border-radius:50%;
-        background:red;
-        /* width:100%; */
-      }
-      .column{
-        width:calc(100%/9);
-        /*border-color:black;
-        border-style:solid;
-        border-width:2px;*/
-        height:100%;
-        display:inline-table;
-      }
-      .row{
-        /*border-color:black;
-        border-style:solid;
-        border-width:2px;*/
-        width:100%;
-        height:100px;
+	}
+	#wrap {
+		min-height: 100%;
+		height: auto !important;
+		height: 100%;
+	}
+	.gameArea{
+		position:absolute;
+		display:block;
+		margin:auto;
+		border-radius:50%;
+		background: rgb(144, 79, 22);
+		/* width:100%; */
+	}
+	.column{
+		width:calc(100%/9);
+		/*border-color:black;
+		border-style:solid;
+		border-width:2px;*/
+		height:100%;
+		display:inline-table;
+	}
+	.row{
+		/*border-color:black;
+		border-style:solid;
+		border-width:2px;*/
+		width:100%;
+		height:100px;
 		margin:0px !important;
 		z-index:0;
-      }
-    .empty{
-        border:none;
-        background-color:rgba(0,0,0,0) !important;
-    }
+	}
+	.empty{
+		border:none;
+		background-color:rgba(0,0,0,0) !important;
+	}
 	
 	.marble {
-	  display: block;
-	  background: black;
-	  border-radius: 50%;
-	  height: 75%;
-	  width: 75%;
-	  margin: auto;
-	      background: radial-gradient(circle at 50% 80%, #5cabff, #000);
-		      position: relative;
-    top: -37.5%;
-	z-index:1;
-}
+		display: block;
+		background: black;
+		border-radius: 50%;
+		height: 75%;
+		width: 75%;
+		margin: auto;
+		background: radial-gradient(circle at 50% 80%, #5cabff, #000);
+		position: relative;
+		top: -37.5%;
+		z-index:1;
+	}
 
-.hole {
-	  display: block;
-	  
-	  border-radius: 50%;
-	  height: 50%;
-	  width: 50%;
-	  margin: auto;
-	      background: black;
-		      position: relative;
-    top: 25%;
-	z-index:1;
-}
+	.hole {
+		display: block;
+
+		border-radius: 50%;
+		height: 50%;
+		width: 50%;
+		margin: auto;
+		background: black;
+		position: relative;
+		top: 25%;
+		z-index:1;
+	}
 
 	.selected {
-    position: relative;
-    content: '';
-    background: rgba(0,0,0,0.5);
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-	z-index:2;
-}
-	
-	.cango >.hole{
+		position: relative;
+		content: '';
+		background: rgba(0,0,0,0.5);
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index:2;
+	}
+
+	.cango > .hole{
 		background:green;
 	}
 	
-	.corner{
-	position:fixed;
-	}
-	
-	.bottom{
-		bottom:5%;
-	}
-	.top{
-		top:5%;
-	}	
-	.left {
+	#undo {
+		position:fixed;
+		bottom: 5%;
 		left: 5%;
 	}
-	.right {
+	#newgame {
+		position:fixed;
+		bottom: 5%;
 		right: 5%;
+	}
+	.left-top-corner,#moves{
+		margin:1%;
+		position:fixed;
+	}
+	.left-top-corner{
+		right:0px;
+	}
+	#timer{
+		font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+		font-size:3vw;
+	}
+	#moves{
+		left:0px;
+		font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+		font-size:3vw;
+	}
+	.popup-background{
+		position:fixed;
+		top:20px;
+		background-color: rgba(111, 111, 111, 0.8);
+		z-index:10;
+		height:100%;
+		min-height:100%;
+		max-height:100%;
+		display:none;
+		width:100%;
+	}
+	#helpbutton{
+		padding-top:20%;
+		float:right;
+	}
+	
+	.popup{
+		border: solid black 2px;
+		padding: 5%;
+		width:50%;
+		margin:auto;
+	}
+	.popup-title{
+		font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+		font-size:3vw;
+		text-align:center;
+	}
+	.popup-text{
+		font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+		font-size:2vw;
+		text-align:justify;
+	}
+	.popup-text>div{
+		padding-top:2%;
 	}
 
 
@@ -139,17 +157,39 @@
 </head>
 <body>
 <div id="wrap">
-	<div class="corner right top fa-2x" id="timer">00:00</div>
-	<div class="corner left top fa-2x" id="moves"><span>Moves: </span><span id="movesCounter">0</span></div>
-	<div class="corner left bottom button" id="undo" onclick="Game.undoMove()"><i class="fa fa-undo fa-5x"></i></div>
-	<div class="corner right bottom button" id="newgame" onclick="Game.init()"><i class="fa fa-play fa-5x"></i></div>
+	<div class="left-top-corner"><div id="timer">00:00</div><div id="helpbutton" onclick="app.showHelp()"><i class="fa fa-life-ring fa-2x" aria-hidden="true"></i></div></div>
+	<div id="moves"><span>Ruchy: </span><span id="movesCounter">0</span></div>
+	<div id="undo" onclick="Game.undoMove()"><i class="fa fa-undo fa-5x"></i></div>
+	<div id="newgame" onclick="Game.init()"><i class="fa fa-play fa-5x"></i></div>
     
-    <div class="gameArea" style="background" id="gameArea">
-        
-        
-
-
-    </div>
+    <div class="gameArea" style="background" id="gameArea"></div>
 </div>
+	<div id="help" class="popup-background" onclick="app.closeWindow(this)">
+		<div class="popup">
+			<div class="popup-title">Jak grać:</div>
+			<div class="popup-text">
+				<div>Wybierz puste pole startowe, a następnie zbijaj kulki przeskakując inną kulką nad nią do wolnego pola. Dozwolone są ruchy tylko w liniach prostych - nie można zbijać na skos - oraz można przeskoczyć tylko jedną kulkę.</div>
+				<div>Celem gry jest zbicie kulek tak, aby na planszy została tylko jedna.</div>
+				<div><i class="fa fa-play"></i> - nowa gra</div>
+				<div><i class="fa fa-undo"></i> - cofnij ruch</div>
+			</div>
+		</div>
+	</div>
+	<div id="win" class="popup-background" onclick="app.closeWindow(this)">
+		<div class="popup">
+			<div class="popup-title">Gratulacje</div>
+			<div class="popup-text">
+				<div>Udało ci się wygrać</div>
+			</div>
+		</div>
+	</div>
+	<div id="lose" class="popup-background" onclick="app.closeWindow(this)">
+		<div class="popup">
+			<div class="popup-title">Brak ruchów</div>
+			<div class="popup-text">
+				<div>Niestety zostało ci za dużo kulek na planszy</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

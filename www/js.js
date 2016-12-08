@@ -15,7 +15,7 @@ var app = {
         var cols = $(".column");
         var rows = $(".row");
         var len = rows.length;
-        var min = Math.min(window.innerWidth,window.innerHeight)*0.9;
+        var min = (Math.min(window.innerWidth,window.innerHeight)-20)*0.9;
 		var marginleft = (window.innerWidth - min)/2;
 		var margintop = (window.innerHeight - min)/2;
         cols.each((i,e)=>{$(e).css('width',min/9);});
@@ -29,6 +29,11 @@ var app = {
                   });
         
         $("#gameArea").css('height',min).css('width',min).css('top',Math.min(window.innerWidth,window.innerHeight)*0.05).css('left',marginleft).css('top',margintop);
+		var popuptop = ($(window).height() - $('.popup').outerHeight())/2;
+		$(".popup").css({
+            position:'relative',
+            top: popuptop
+        });
 	},
 	onDeviceReady:function() {
 		console.log("onDeviceReady start");
@@ -40,6 +45,17 @@ var app = {
 		document.addEventListener("orientationchange",this.changeScreenSize);
 		document.addEventListener("onresize",this.changeScreenSize);
 		document.addEventListener("resize",this.changeScreenSize);
+	},
+	showHelp:function(){
+		$('#help').css('display','block');
+		$(".popup").css({
+            position:'relative',
+            top: ($(window).height() - $('.popup').outerHeight())/2
+        });
+
+	},
+	closeWindow:function(popup){
+		$(popup).css('display','none');
 	}
 }
 	
@@ -63,6 +79,11 @@ function Timer(options) {
 	seconds= 0;
     timer = setInterval(increment, 1000);
   };
+  
+  this.resume = function () {
+	  clearInterval(timer);
+	  timer = setInterval(increment, 1000);
+  }
 
   this.stop = function () {
     clearInterval(timer);
@@ -106,9 +127,9 @@ var Game={
 		this.fields={};
 		this.fieldsLength=0;
 		this.movesCounter=0,
-		this.historyCounter=0,
+		this.historyCounter=0;
 		this.marbles=0;
-		this.history={},
+		this.history={};
 		this.generateDOM();
 		this.addActionsOnFields(this);
 
@@ -289,6 +310,15 @@ var Game={
 			betweenField["marble"]=false;
 			this.history[this.historyCounter]["marble"] = betweenField["div"].children().last().detach();
 			$(".cango").removeClass("cango");
+			this.marbles--;
+			if(this.checkPossibleMoves()<1){
+				if(this.marbles==1){
+					this.win();
+				}
+				else{
+					this.lose();
+				}
+			}
 		}
 	},
 	
@@ -301,9 +331,13 @@ var Game={
 			move["deleted"]["div"].append(move["marble"]);
 			move["to"]["marble"]=false;
 			move["from"]["marble"]=true;
+			this.marbles++;
 			this.historyCounter--;
 			this.movesCounter++;
 			this.updateMovesCounter();
+			if(this.checkPossibleMoves()>0){
+				this.timer.resume();
+			}
 		}
 	},
 	
@@ -321,15 +355,29 @@ var Game={
 	},
 	
 	checkPossibleMoves:function(){
-		for(var x=0;x<9;x++){
-			for(var y=0;y<9;y++){
-				if(this.isEmpty(x,y)){
-					//if(this.isMarble(x,x+1) && this.isMarble(x,x+2))
-				} 
+		var possibleMoves=0;
+		for(var i=0;i<9;i++){
+			for(var j=0;j<9;j++){
+				for(var x=-1;x<=1;x++){
+					for(var y=-1;y<=1;y++){
+						if(Math.abs(x)!=Math.abs(y) &&this.isMarble(i,j) && this.isMarble(i+1*x,j+1*y) && this.isEmpty(i+2*x,j+2*y)){
+							possibleMoves++;
+						}
+					}
+				}
 			}
 		}
-		return false;
-		
+		return possibleMoves;		
+	},
+	
+	win:function(){
+		this.timer.stop();
+		$("#win").css('display','block');
+	},
+	
+	lose:function(){
+		this.timer.stop();
+		$("#lose").css('display','block');
 	},
 	
 	updateMovesCounter:function(){
