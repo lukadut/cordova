@@ -31,10 +31,12 @@ var app = {
         $("#gameArea").css('height',min).css('width',min).css('top',Math.min(window.innerWidth,window.innerHeight)*0.05).css('left',marginleft).css('top',margintop);
 		var popuptop = ($(window).height() - $('#help .popup').outerHeight())/2;
 		$("#debug").text(popuptop);
-		$(".popup").css({
-            position:'relative',
-            top: popuptop
-        });
+		$(".popup").each(function(index,element){
+			$(element).css({
+				position:'relative',
+				top: ($(window).height() - $(element).outerHeight())/2
+			});
+		})
 	},
 	onDeviceReady:function() {
 		console.log("onDeviceReady start");
