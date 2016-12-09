@@ -29,7 +29,8 @@ var app = {
                   });
         
         $("#gameArea").css('height',min).css('width',min).css('top',Math.min(window.innerWidth,window.innerHeight)*0.05).css('left',marginleft).css('top',margintop);
-		var popuptop = ($(window).height() - $('.popup').outerHeight())/2;
+		var popuptop = ($(window).height() - $('#help .popup').outerHeight())/2;
+		$("#debug").text(popuptop);
 		$(".popup").css({
             position:'relative',
             top: popuptop
