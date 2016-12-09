@@ -323,6 +323,9 @@ var Game={
 	
 	undoMove:function(){
 		if(this.historyCounter>0){
+			this.selectedField=undefined;
+			$(".selected").removeClass("selected");
+			$(".cango").removeClass("cango");
 			var move = this.history[this.historyCounter];
 			var marble = move["to"]["div"].children().last().detach();
 			move["from"]["div"].append(marble);
