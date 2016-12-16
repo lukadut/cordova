@@ -27,4 +27,10 @@
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarStyle" value="default" />
     <preference name="StatusBarBackgroundColor" value="#13579b" />
+    <!-- blokowanie orientacji urzadzenia -->
+    <preference name="Orientation" value="landscape" />
+    <!-- akcelerometr -->
+    <feature name="Accelerometer">
+        <param name="ios-package" value="CDVAccelerometer" />
+    </feature>
 </widget>

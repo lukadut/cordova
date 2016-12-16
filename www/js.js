@@ -4,8 +4,13 @@ var app = {
 		document.addEventListener("deviceready", function(){app.onDeviceReady();console.log("deviceready");}, false);
 		document.addEventListener("load", function(){app.onDeviceReady();console.log("load");}, false);
 		$(document).ready(function(){console.log("jquery ready");app.onDeviceReady();})
-
+        
 		$(window).bind('resize', this.changeScreenSize);
+        
+
+
+
+        
 
 	},
 	changeScreenSize:function(){
@@ -47,6 +52,7 @@ var app = {
 		document.addEventListener("orientationchange",this.changeScreenSize);
 		document.addEventListener("onresize",this.changeScreenSize);
 		document.addEventListener("resize",this.changeScreenSize);
+
 	},
 	showHelp:function(){
 		$('#help').css('display','block');
@@ -118,6 +124,7 @@ var Game={
 	movesCounter:0,
 	historyCounter:0,
 	history:{},
+    audio:new Audio('attach.wav'),
 	init:function(){
 		app.initialize();
 		this.timer.stop();
@@ -209,6 +216,8 @@ var Game={
 		var j = event.data.j;
 		if(this.marbles===0){
 			this.generateMarbles(i,j);
+            console.log("typeof(shake)",typeof(shake));
+            shake.startWatch(function(){console.log("shake")},15);
 		}
 		else {
 			if(this.fields[i][j]["marble"]){
@@ -290,6 +299,7 @@ var Game={
 	
 	makeMove:function(destination){
 		if(this.validateMove(this.selectedField,destination)){
+            this.audio.play();
 			this.movesCounter++;
 			this.historyCounter++;
 			this.updateMovesCounter();
@@ -383,8 +393,13 @@ var Game={
 	},
 	
 	updateMovesCounter:function(){
-		$("#movesCounter").text(this.movesCounter);
-	},
+		//$("#movesCounter").text(this.movesCounter);
+        $("#movesCounter").text("shake " + typeof(shake));
+        console.log("navigator.accelerometer.watchAcceleration",navigator.accelerometer.watchAcceleration(function(a){console.log(Math.abs(a.x)+Math.abs(a.y)+Math.abs(a.z))},function(){},{
+                                                                                                          frequency: 300
+                                                                                                          }));
+        
+    },
 	
 }
 
