@@ -6,9 +6,17 @@ var app = {
 		$(document).ready(function(){console.log("jquery ready");app.onDeviceReady();})
         
 		$(window).bind('resize', this.changeScreenSize);
+        
+
+
+
+        
 
 	},
 	changeScreenSize:function(){
+		/* var log = document.getElementById("log");
+		log.innerText="zmiana orientacji, aktualnie " + window.orientation +"\r\n"
+            + "width: " + window.innerWidth + "\r\nheight: " + window.innerHeight;*/
         var cols = $(".column");
         var rows = $(".row");
         var len = rows.length;
@@ -17,10 +25,22 @@ var app = {
 		var margintop = (window.innerHeight - min)/2;
         cols.each((i,e)=>{$(e).css('width',min/9);});
         rows.each(function(index,element){
+                  //console.log(index + " " + element);
+                  if(!$(element).hasClass("empty")){
+                    //$(element).css('background-color','#'+(Math.round(0xFFF/len) * index).toString(16));
+                  }
                   $(element).css('height',min/9);
+                  
                   });
         
         $("#gameArea").css('height',min).css('width',min).css('top',Math.min(window.innerWidth,window.innerHeight)*0.05).css('left',marginleft).css('top',margintop);
+		
+		/*$(".popup").each(function(index,element){
+			$(element).css({
+				position:'fixed',
+				top: ($(window).height() - $(element).outerHeight())/2
+			});
+		})*/
 	},
 	onDeviceReady:function() {
 		console.log("onDeviceReady start");
@@ -104,6 +124,7 @@ var Game={
 	movesCounter:0,
 	historyCounter:0,
 	history:{},
+    audio:new Audio('attach.wav'),
 	init:function(){
 		app.initialize();
 		this.timer.stop();
@@ -228,7 +249,9 @@ var Game={
 		if(this.previousSelectedField != undefined)
 			this.previousSelectedField["div"].removeClass("selected");
 		this.selectedField=this.fields[i][j];
-		this.selectedField["div"].addClass("selected");
+		//if(this.fields["marble"]){
+			this.selectedField["div"].addClass("selected");
+		//}
 		this.checkWhereCanGo();
 	},
 	
@@ -238,7 +261,11 @@ var Game={
 			var j = this.selectedField["j-index"];
 			for(var x=-1;x<=1;x++){
 				for(var y=-1;y<=1;y++){
-					if(Math.abs(x)!=Math.abs(y) && this.isMarble(i+1*x,j+1*y) && this.isEmpty(i+2*x,j+2*y)){
+					if(this.isMarble(i+1*x,j+1*y) && this.isEmpty(i+2*x,j+2*y)){
+						console.log("sprawdzam i=",i+2*x,", j=",j+2*y);
+						console.log("czy pole ", this.isField(i+2*x,j+2*y));
+						console.log("czy pole jest puste ", this.isEmpty(i+2*x,j+2*y));
+						console.log("czy pole jest kulka ", this.isMarble(i+2*x,j+2*y));
 						this.fields[i+2*x][j+2*y]["div"].addClass("cango");
 					}
 				}
@@ -264,6 +291,7 @@ var Game={
 	
 	makeMove:function(destination){
 		if(this.validateMove(this.selectedField,destination)){
+            this.audio.play();
 			this.movesCounter++;
 			this.historyCounter++;
 			this.updateMovesCounter();
@@ -320,8 +348,8 @@ var Game={
 	validateMove:function(field1,field2){
 		var i = Math.abs(field1["i-index"] - field2["i-index"]);
 		var j = Math.abs(field1["j-index"] - field2["j-index"]);
-		console.log(i + j == 2 && i * j ==0 );
-		return (i + j == 2 && i * j ==0);
+		console.log((i + j == 2 && i * j ==0) ||((i + j == 4 && i * j ==4)));
+		return ((i + j == 2 && i * j ==0) ||((i + j == 4 && i * j ==4)));
 	},
 	
 	findBetweenElement:function(field1,field2){
@@ -336,7 +364,7 @@ var Game={
 			for(var j=0;j<9;j++){
 				for(var x=-1;x<=1;x++){
 					for(var y=-1;y<=1;y++){
-						if(Math.abs(x)!=Math.abs(y) && this.isMarble(i,j) && this.isMarble(i+1*x,j+1*y) && this.isEmpty(i+2*x,j+2*y)){
+						if(this.isMarble(i,j) && this.isMarble(i+1*x,j+1*y) && this.isEmpty(i+2*x,j+2*y)){
 							possibleMoves++;
 						}
 					}
@@ -357,7 +385,10 @@ var Game={
 	},
 	
 	updateMovesCounter:function(){
-		$("#movesCounter").text(this.movesCounter);     
+		$("#movesCounter").text(this.movesCounter);
+        //$("#movesCounter").text("shake " + typeof(shake));
+       
+        
     },
 	
 }
